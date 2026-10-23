@@ -521,45 +521,135 @@
     #projects { background: var(--off-white); overflow: hidden; }
     #projects .blob-4 { top: -60px; right: -60px; opacity: .5; }
 
-    .proj-header { display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 1rem; margin-bottom: clamp(2.5rem,5vw,4rem); }
+    .proj-header { display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem; }
     .proj-count { font-family: var(--font-mono); font-size: .8rem; color: var(--ink-4); }
 
-    .proj-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
+    /* Category Filter Buttons */
+    .proj-filters {
+      display: flex; gap: .6rem; flex-wrap: wrap; margin-bottom: 2.2rem;
+    }
+    .proj-filter-btn {
+      padding: .45rem 1.15rem; border-radius: var(--r3);
+      background: var(--paper); border: 1.5px solid var(--border);
+      color: var(--ink-3); font-size: .78rem; font-weight: 600;
+      transition: all .25s var(--ease); cursor: pointer;
+    }
+    .proj-filter-btn:hover {
+      border-color: var(--p1); color: var(--ink); transform: translateY(-2px);
+    }
+    .proj-filter-btn.active {
+      background: var(--p1); color: #090d16; border-color: var(--p1);
+      box-shadow: 0 4px 16px rgba(167,139,250,.35);
+    }
+
+    .proj-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; }
 
     .proj-card {
-      background: var(--white); border: 1.5px solid var(--border);
+      background: var(--paper); border: 1.5px solid var(--border);
       border-radius: var(--r2); overflow: hidden;
+      display: flex; flex-direction: column; justify-content: space-between;
       transition: transform .38s var(--spring), box-shadow .35s, border-color .3s;
-      cursor: pointer;
+      position: relative;
     }
-    .proj-card:hover { transform: scale(1.04) translateY(-5px); box-shadow: 0 20px 50px rgba(0,0,0,.1); border-color: rgba(139,92,246,.25); }
+    .proj-card.hidden { display: none !important; }
+    .proj-card:hover {
+      transform: scale(1.03) translateY(-6px);
+      box-shadow: 0 20px 45px rgba(0,0,0,.45);
+      border-color: rgba(167,139,250,.35);
+    }
 
     .proj-img { width: 100%; aspect-ratio: 16/9; object-fit: cover; filter: saturate(.85); transition: filter .4s; }
     .proj-card:hover .proj-img { filter: saturate(1.1); }
 
-    .proj-body { padding: 1.4rem; }
+    .proj-body { padding: 1.4rem; flex: 1; display: flex; flex-direction: column; }
+    .proj-card-top {
+      display: flex; align-items: center; justify-content: space-between; gap: .5rem; margin-bottom: .85rem;
+    }
+    .proj-badge {
+      display: inline-flex; align-items: center; gap: .35rem;
+      padding: .25rem .65rem; border-radius: var(--r3);
+      font-size: .65rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+      background: rgba(167,139,250,.12); color: var(--p1); border: 1px solid rgba(167,139,250,.25);
+    }
+    .proj-badge.orange {
+      background: rgba(251,146,60,.12); color: #fb923c; border-color: rgba(251,146,60,.25);
+    }
+    .proj-badge.green {
+      background: rgba(16,185,129,.12); color: #34d399; border-color: rgba(16,185,129,.25);
+    }
+    .proj-metric {
+      font-size: .72rem; font-family: var(--font-mono); font-weight: 600; color: #34d399;
+      display: inline-flex; align-items: center; gap: .3rem;
+    }
     .proj-tags { display: flex; gap: .4rem; flex-wrap: wrap; margin-bottom: .85rem; }
     .proj-tag {
       font-size: .63rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
       padding: .2rem .6rem; border-radius: var(--r3);
-      background: rgba(139,92,246,.08); color: var(--p1);
-      border: 1px solid rgba(139,92,246,.15);
+      background: rgba(167,139,250,.08); color: var(--p1);
+      border: 1px solid rgba(167,139,250,.18);
     }
-    .proj-title { font-weight: 700; font-size: 1rem; margin-bottom: .45rem; }
-    .proj-desc { font-size: .825rem; color: var(--ink-3); line-height: 1.65; }
+    .proj-title { font-weight: 700; font-size: 1.05rem; margin-bottom: .45rem; color: var(--ink); }
+    .proj-desc { font-size: .825rem; color: var(--ink-3); line-height: 1.65; flex: 1; }
 
     .proj-foot {
       display: flex; align-items: center; justify-content: space-between;
       padding: .9rem 1.4rem; border-top: 1px solid var(--border);
     }
+    .btn-details {
+      display: inline-flex; align-items: center; gap: .35rem;
+      padding: .4rem .9rem; border-radius: var(--r3);
+      font-size: .72rem; font-weight: 600;
+      background: rgba(167,139,250,.1); color: var(--p1);
+      border: 1px solid rgba(167,139,250,.25); cursor: pointer; transition: all .2s;
+    }
+    .btn-details:hover {
+      background: var(--p1); color: #090d16; transform: translateY(-1px);
+    }
     .proj-link {
       display: inline-flex; align-items: center; gap: .4rem;
       font-size: .75rem; font-weight: 700; letter-spacing: .06em;
-      text-transform: uppercase; color: var(--ink-3);
-      transition: color .25s;
+      text-transform: uppercase; color: var(--ink-3); transition: color .25s;
     }
     .proj-card:hover .proj-link { color: var(--p1); }
-    .proj-num { font-family: var(--font-mono); font-size: .68rem; color: var(--border-2); }
+
+    /* Project Detail Modal */
+    .p-modal-backdrop {
+      position: fixed; inset: 0; z-index: 10000;
+      background: rgba(4,7,13,.85); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      display: flex; align-items: center; justify-content: center; padding: 1.5rem;
+      opacity: 0; pointer-events: none; transition: opacity .3s ease;
+    }
+    .p-modal-backdrop.open { opacity: 1; pointer-events: auto; }
+    .p-modal-card {
+      background: var(--paper); border: 1.5px solid var(--border-2); border-radius: var(--r2);
+      max-width: 650px; width: 100%; max-height: 90vh; overflow-y: auto;
+      box-shadow: 0 25px 60px rgba(0,0,0,.7); position: relative;
+      transform: scale(.92) translateY(15px); transition: transform .35s var(--spring);
+    }
+    .p-modal-backdrop.open .p-modal-card { transform: scale(1) translateY(0); }
+    .p-modal-img {
+      width: 100%; aspect-ratio: 16/9; object-fit: cover; border-top-left-radius: inherit; border-top-right-radius: inherit;
+    }
+    .p-modal-content { padding: 1.75rem 2rem 2rem; }
+    .p-modal-close {
+      position: absolute; top: 1rem; right: 1rem; width: 36px; height: 36px; border-radius: 50%;
+      background: rgba(0,0,0,.65); border: 1px solid rgba(255,255,255,.2); color: #fff;
+      display: flex; align-items: center; justify-content: center; font-size: 1rem; cursor: pointer;
+      z-index: 2; transition: all .2s;
+    }
+    .p-modal-close:hover { background: #ef4444; border-color: #ef4444; transform: rotate(90deg); }
+    .p-modal-bullets {
+      list-style: none; margin: 1.25rem 0; display: flex; flex-direction: column; gap: .65rem;
+    }
+    .p-modal-bullets li {
+      font-size: .84rem; color: var(--ink-2); display: flex; align-items: flex-start; gap: .6rem; line-height: 1.55;
+    }
+    .p-modal-bullets li i {
+      color: var(--p1); font-size: .85rem; margin-top: .25rem; flex-shrink: 0;
+    }
+    .p-modal-actions {
+      display: flex; gap: .75rem; flex-wrap: wrap; margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid var(--border);
+    }
 
     /* ============================================
        ACHIEVEMENTS
@@ -1091,7 +1181,7 @@
             <div class="hero-stat-lbl">Board<br>Score</div>
           </div>
           <div>
-            <div class="hero-stat-num">4<sup>+</sup></div>
+            <div class="hero-stat-num">6<sup>+</sup></div>
             <div class="hero-stat-lbl">Projects<br>Built</div>
           </div>
         </div>
@@ -1277,72 +1367,168 @@
   <!-- ══════════════════════════════
        PROJECTS
   ══════════════════════════════ -->
-       <article class="proj-card reveal">
-        <img src="https://picsum.photos/seed/p1gk/640/360" alt="Smart Calculator PRO" class="proj-img" loading="lazy"/>
+  <section id="projects">
+    <div class="blob blob-4"></div>
+
+    <div class="proj-header">
+      <div>
+        <div class="sec-eyebrow reveal">Projects &amp; Creations</div>
+        <h2 class="sec-title reveal" style="margin-bottom:0">Things I've <span class="gr">Built</span></h2>
+      </div>
+      <div class="proj-count reveal">06 Featured Projects</div>
+    </div>
+
+    <!-- Category Filters -->
+    <div class="proj-filters reveal">
+      <button class="proj-filter-btn active" data-filter="all">All Projects (6)</button>
+      <button class="proj-filter-btn" data-filter="programming">C++ &amp; Programming</button>
+      <button class="proj-filter-btn" data-filter="web">Web Apps</button>
+      <button class="proj-filter-btn" data-filter="school">Science Fair &amp; Physics</button>
+      <button class="proj-filter-btn" data-filter="creative">UI/UX &amp; Figma</button>
+    </div>
+
+    <div class="proj-grid">
+      <!-- 1. Student Grade & Attendance Tracker -->
+      <article class="proj-card reveal" data-category="programming" data-id="grade-manager">
+        <img src="https://picsum.photos/id/1/900/500" alt="Student Grade &amp; Attendance Tracker" class="proj-img" loading="lazy"/>
         <div class="proj-body">
+          <div class="proj-card-top">
+            <span class="proj-badge">C++ Application</span>
+            <span class="proj-metric"><i class="fas fa-code"></i> 500+ Lines C++</span>
+          </div>
           <div class="proj-tags">
-            <span class="proj-tag">JavaScript</span>
-            <span class="proj-tag">HTML/CSS</span>
-            <span class="proj-tag">Web Audio</span>
+            <span class="proj-tag">C++</span><span class="proj-tag">OOP</span><span class="proj-tag">File Streams</span><span class="proj-tag">CLI</span>
           </div>
-          <h3 class="proj-title">Smart Calculator PRO</h3>
-          <p class="proj-desc">An interactive web calculator featuring natural language math parsing, scientific trigonometry (DEG/RAD), 7-category unit converter, and financial tools.</p>
+          <h3 class="proj-title">Student Grade &amp; Attendance Tracker</h3>
+          <p class="proj-desc">A terminal-based student database management system in C++ that calculates subject GPAs, attendance records, and generates formatted report cards saved persistently to local files.</p>
         </div>
         <div class="proj-foot">
-          <div style="display:inline-flex; gap:1.2rem;">
-            <a href="https://gopi0502.github.io/smart-calculator/" target="_blank" rel="noopener" class="proj-link" style="color:var(--p5);">
-              Live Demo <i class="fas fa-external-link-alt"></i>
-            </a>
-            <a href="https://github.com/gopi0502/smart-calculator" target="_blank" rel="noopener" class="proj-link">
-              GitHub <i class="fab fa-github"></i>
-            </a>
+          <button type="button" class="btn-details" onclick="openProjectModal('grade-manager')">
+            <i class="fas fa-info-circle"></i> Details
+          </button>
+          <a href="https://github.com/gopi0502" target="_blank" rel="noopener" class="proj-link">
+            GitHub <i class="fab fa-github"></i>
+          </a>
+        </div>
+      </article>
+
+      <!-- 2. Interactive Solar System & Gravity Exhibit -->
+      <article class="proj-card reveal d1" data-category="school" data-id="solar-explorer">
+        <img src="https://picsum.photos/id/1002/900/500" alt="Interactive Solar System &amp; Gravity Exhibit" class="proj-img" loading="lazy"/>
+        <div class="proj-body">
+          <div class="proj-card-top">
+            <span class="proj-badge orange">🏆 1st Prize Winner</span>
+            <span class="proj-metric"><i class="fas fa-trophy"></i> Science Fair</span>
           </div>
-          <span class="proj-num">#01</span>
+          <div class="proj-tags">
+            <span class="proj-tag">HTML5</span><span class="proj-tag">CSS3</span><span class="proj-tag">JavaScript</span><span class="proj-tag">Physics</span>
+          </div>
+          <h3 class="proj-title">Interactive Solar System &amp; Gravity Exhibit</h3>
+          <p class="proj-desc">An interactive digital planetary physics exhibit created for the High School Science Fair, demonstrating celestial orbits, relative gravity calculations, and space facts.</p>
+        </div>
+        <div class="proj-foot">
+          <button type="button" class="btn-details" onclick="openProjectModal('solar-explorer')">
+            <i class="fas fa-info-circle"></i> Details
+          </button>
+          <a href="https://github.com/gopi0502" target="_blank" rel="noopener" class="proj-link">
+            GitHub <i class="fab fa-github"></i>
+          </a>
         </div>
       </article>
 
-      <article class="proj-card reveal d1">
-        <img src="https://picsum.photos/seed/p2gk/640/360" alt="Personal Portfolio" class="proj-img" loading="lazy"/>
+      <!-- 3. Midnight Glassmorphism Portfolio -->
+      <article class="proj-card reveal d2" data-category="web" data-id="portfolio-website">
+        <img src="https://picsum.photos/id/0/900/500" alt="Midnight Glassmorphism Portfolio" class="proj-img" loading="lazy"/>
         <div class="proj-body">
-          <div class="proj-tags"><span class="proj-tag">HTML</span><span class="proj-tag">CSS</span><span class="proj-tag">JS</span></div>
-          <h3 class="proj-title">Personal Portfolio</h3>
-          <p class="proj-desc">This very website — designed from scratch with modern aesthetics, smooth animations, and full mobile responsiveness.</p>
+          <div class="proj-card-top">
+            <span class="proj-badge green">Featured Web</span>
+            <span class="proj-metric"><i class="fas fa-mobile-alt"></i> 100% Responsive</span>
+          </div>
+          <div class="proj-tags">
+            <span class="proj-tag">HTML5</span><span class="proj-tag">CSS3</span><span class="proj-tag">JavaScript</span><span class="proj-tag">Glassmorphism</span>
+          </div>
+          <h3 class="proj-title">Midnight Glassmorphism Portfolio</h3>
+          <p class="proj-desc">This responsive personal portfolio website engineered with clean HTML5, CSS3 frosted glassmorphism, an interactive particle canvas hero background, and an image lightbox gallery.</p>
         </div>
         <div class="proj-foot">
+          <button type="button" class="btn-details" onclick="openProjectModal('portfolio-website')">
+            <i class="fas fa-info-circle"></i> Details
+          </button>
           <a href="https://github.com/gopi0502" target="_blank" rel="noopener" class="proj-link">
-            View on GitHub <i class="fas fa-arrow-right"></i>
+            GitHub <i class="fab fa-github"></i>
           </a>
-          <span class="proj-num">#02</span>
         </div>
       </article>
 
-      <article class="proj-card reveal d2">
-        <img src="https://picsum.photos/seed/p3gk/640/360" alt="Grade Tracker" class="proj-img" loading="lazy"/>
+      <!-- 4. Retro Arcade: Snake & Brick Breaker -->
+      <article class="proj-card reveal" data-category="programming" data-id="retro-arcade">
+        <img src="https://picsum.photos/id/1080/900/500" alt="Retro Arcade: Snake &amp; Brick Breaker" class="proj-img" loading="lazy"/>
         <div class="proj-body">
-          <div class="proj-tags"><span class="proj-tag">C++</span><span class="proj-tag">OOP</span></div>
-          <h3 class="proj-title">Grade Tracker</h3>
-          <p class="proj-desc">An object-oriented C++ app that tracks student grades, computes averages, and generates a simple report card output.</p>
+          <div class="proj-card-top">
+            <span class="proj-badge">2D Game Dev</span>
+            <span class="proj-metric"><i class="fas fa-gamepad"></i> 60 FPS Loop</span>
+          </div>
+          <div class="proj-tags">
+            <span class="proj-tag">JavaScript</span><span class="proj-tag">HTML5 Canvas</span><span class="proj-tag">C++</span><span class="proj-tag">Game Loops</span>
+          </div>
+          <h3 class="proj-title">Retro Arcade: Snake &amp; Brick Breaker</h3>
+          <p class="proj-desc">Playable 2D browser mini-games developed with HTML5 Canvas and JavaScript (accompanied by a C++ console version) exploring collision detection, state loops, and high scores.</p>
         </div>
         <div class="proj-foot">
+          <button type="button" class="btn-details" onclick="openProjectModal('retro-arcade')">
+            <i class="fas fa-info-circle"></i> Details
+          </button>
           <a href="https://github.com/gopi0502" target="_blank" rel="noopener" class="proj-link">
-            View on GitHub <i class="fas fa-arrow-right"></i>
+            GitHub <i class="fab fa-github"></i>
           </a>
-          <span class="proj-num">#03</span>
         </div>
       </article>
 
-      <article class="proj-card reveal d3">
-        <img src="https://picsum.photos/seed/p4gk/640/360" alt="Quiz App" class="proj-img" loading="lazy"/>
+      <!-- 5. School Study Hub · UI/UX Design System -->
+      <article class="proj-card reveal d1" data-category="creative" data-id="study-hub-ui">
+        <img src="https://picsum.photos/id/119/900/500" alt="School Study Hub · UI/UX Design System" class="proj-img" loading="lazy"/>
         <div class="proj-body">
-          <div class="proj-tags"><span class="proj-tag">HTML</span><span class="proj-tag">CSS</span><span class="proj-tag">JS</span></div>
-          <h3 class="proj-title">Quiz App</h3>
-          <p class="proj-desc">A browser-based interactive quiz with a countdown timer, score tracking, and an animated results screen.</p>
+          <div class="proj-card-top">
+            <span class="proj-badge">Figma UI/UX</span>
+            <span class="proj-metric"><i class="fas fa-pencil-ruler"></i> 15+ Screens</span>
+          </div>
+          <div class="proj-tags">
+            <span class="proj-tag">Figma</span><span class="proj-tag">UI/UX</span><span class="proj-tag">Wireframing</span><span class="proj-tag">Design System</span>
+          </div>
+          <h3 class="proj-title">School Study Hub · UI/UX Design System</h3>
+          <p class="proj-desc">A comprehensive UI wireframe and high-fidelity prototype created in Figma for a student study companion app, featuring homework organizers, timetable views, and announcements.</p>
         </div>
         <div class="proj-foot">
+          <button type="button" class="btn-details" onclick="openProjectModal('study-hub-ui')">
+            <i class="fas fa-info-circle"></i> Details
+          </button>
           <a href="https://github.com/gopi0502" target="_blank" rel="noopener" class="proj-link">
-            View on GitHub <i class="fas fa-arrow-right"></i>
+            GitHub <i class="fab fa-github"></i>
           </a>
-          <span class="proj-num">#04</span>
+        </div>
+      </article>
+
+      <!-- 6. QuickQuiz: 10th Grade STEM Revision App -->
+      <article class="proj-card reveal d2" data-category="web" data-id="quick-quiz">
+        <img src="https://picsum.photos/id/20/900/500" alt="QuickQuiz: 10th Grade STEM Revision App" class="proj-img" loading="lazy"/>
+        <div class="proj-body">
+          <div class="proj-card-top">
+            <span class="proj-badge green">Web Application</span>
+            <span class="proj-metric"><i class="fas fa-users"></i> 40+ Students</span>
+          </div>
+          <div class="proj-tags">
+            <span class="proj-tag">JavaScript</span><span class="proj-tag">HTML5</span><span class="proj-tag">CSS3</span><span class="proj-tag">STEM Prep</span>
+          </div>
+          <h3 class="proj-title">QuickQuiz: 10th Grade STEM Revision App</h3>
+          <p class="proj-desc">A timed multiple-choice quiz web application built to help classmates review 10th-grade Mathematics, Science, and Computer Science concepts with instant score reports.</p>
+        </div>
+        <div class="proj-foot">
+          <button type="button" class="btn-details" onclick="openProjectModal('quick-quiz')">
+            <i class="fas fa-info-circle"></i> Details
+          </button>
+          <a href="https://github.com/gopi0502" target="_blank" rel="noopener" class="proj-link">
+            GitHub <i class="fab fa-github"></i>
+          </a>
         </div>
       </article>
     </div>
@@ -1364,7 +1550,7 @@
         <div class="ss-label">Board Score</div>
       </div>
       <div class="ss-item">
-        <div class="ss-num">04</div>
+        <div class="ss-num">06</div>
         <div class="ss-label">Projects Built</div>
       </div>
       <div class="ss-item">
@@ -1520,7 +1706,7 @@
           <input type="hidden" name="_captcha" value="false">
           <input type="hidden" name="_template" value="table">
           <input type="hidden" name="_autoresponse" value="Thank you for reaching out to Gopikrishna! Your message has been received successfully. I will review it and reply as soon as possible.">
-          <input type="hidden" name="_next" id="cf_next" value="https://gopi0502.github.io/my-protyofolio/#contact?sent=true">
+          <input type="hidden" name="_next" id="cf_next" value="https://gopi0502.github.io/MR.Black/#contact?sent=true">
           <input type="hidden" name="_subject" id="cf_subject_hidden" value="New Portfolio Message for Gopikrishna">
           <div class="cf-row">
             <div class="cf-group">
@@ -1586,10 +1772,12 @@
       <div>
         <div class="foot-col-t">Projects</div>
         <div class="foot-links">
-          <a href="https://github.com/gopi0502">Smart Calculator</a>
-          <a href="https://github.com/gopi0502">Portfolio Site</a>
-          <a href="https://github.com/gopi0502">Grade Tracker</a>
-          <a href="https://github.com/gopi0502">Quiz App</a>
+          <a href="#projects">Grade &amp; Attendance Tracker</a>
+          <a href="#projects">Solar System &amp; Gravity Exhibit</a>
+          <a href="#projects">Midnight Portfolio</a>
+          <a href="#projects">Retro Arcade Games</a>
+          <a href="#projects">School Study Hub (Figma)</a>
+          <a href="#projects">QuickQuiz STEM App</a>
         </div>
       </div>
       <div>
@@ -2032,6 +2220,185 @@
     }
   })();
 
+  </script>
+  <!-- ══════════════════════════════
+       PROJECT DETAIL MODAL
+  ══════════════════════════════ -->
+  <div class="p-modal-backdrop" id="projectModalBackdrop" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="p-modal-card">
+      <button class="p-modal-close" id="projectModalClose" aria-label="Close project modal">
+        <i class="fas fa-times"></i>
+      </button>
+      <img id="modalImg" src="" alt="" class="p-modal-img" />
+      <div class="p-modal-content">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">
+          <span id="modalBadge" class="proj-badge"></span>
+          <span id="modalMetric" class="proj-metric"></span>
+        </div>
+        <h3 id="modalTitle" style="font-size:1.45rem; font-weight:700; color:var(--ink); margin-bottom:0.6rem;"></h3>
+        <p id="modalDesc" style="font-size:0.88rem; color:var(--ink-3); line-height:1.6;"></p>
+        
+        <h4 style="font-size:0.75rem; text-transform:uppercase; letter-spacing:0.12em; color:var(--p1); font-weight:700; margin-top:1.25rem;">Key Architecture &amp; Highlights</h4>
+        <ul id="modalBullets" class="p-modal-bullets"></ul>
+
+        <div style="font-size:0.7rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--ink-4); font-weight:700; margin-bottom:0.45rem;">Technologies Used</div>
+        <div id="modalTags" style="display:flex; gap:0.4rem; flex-wrap:wrap;"></div>
+
+        <div class="p-modal-actions">
+          <a id="modalGithub" href="https://github.com/gopi0502" target="_blank" rel="noopener" class="btn-dark" style="padding:0.7rem 1.3rem; font-size:0.8rem;">
+            <i class="fab fa-github"></i> View on GitHub
+          </a>
+          <button type="button" class="btn-outline" onclick="closeProjectModal()" style="padding:0.7rem 1.3rem; font-size:0.8rem;">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  'use strict';
+
+  /* ══════════════════════════════
+     11. PROJECTS FILTER & MODAL
+  ══════════════════════════════ */
+  const PROJECTS_DATA = {
+    'grade-manager': {
+      title: 'Student Grade & Attendance Tracker',
+      badge: 'C++ Application',
+      metric: '500+ Lines C++',
+      img: 'https://picsum.photos/id/1/900/500',
+      desc: 'A terminal-based student database management system in C++ that calculates subject GPAs, attendance records, and generates formatted report cards saved persistently to local files.',
+      bullets: [
+        'Architected with Object-Oriented Programming (OOP) utilizing classes for Student, Subject, and GradeReport.',
+        'Implemented robust file persistence with C++ fstream to save student records and reload them across sessions.',
+        'Created user-friendly terminal formatting and automatic grade-letter calculation with input sanitization.'
+      ],
+      tags: ['C++', 'OOP', 'File Streams', 'Data Structures', 'CLI'],
+      github: 'https://github.com/gopi0502'
+    },
+    'solar-explorer': {
+      title: 'Interactive Solar System & Gravity Exhibit',
+      badge: '🏆 1st Prize Winner',
+      metric: 'Science Fair Winner',
+      img: 'https://picsum.photos/id/1002/900/500',
+      desc: 'An interactive digital planetary physics exhibit created for the High School Science Fair, demonstrating celestial orbits, relative gravity calculations, and space facts.',
+      bullets: [
+        'Awarded 1st Place out of 35 participating teams at the Annual Inter-School Science & Tech Fair.',
+        'Built CSS3 keyframe orbit animations and responsive planetary cards with interactive facts.',
+        'Featured a "Calculate Your Weight on Other Planets" real-time mathematical physics simulator.'
+      ],
+      tags: ['HTML5', 'CSS3 Animations', 'JavaScript', 'Physics', 'Science Fair'],
+      github: 'https://github.com/gopi0502'
+    },
+    'portfolio-website': {
+      title: 'Midnight Glassmorphism Portfolio',
+      badge: 'Featured Web',
+      metric: '100% Responsive',
+      img: 'https://picsum.photos/id/0/900/500',
+      desc: 'This responsive personal portfolio website engineered with clean HTML5, CSS3 frosted glassmorphism, an interactive particle canvas hero background, and an image lightbox gallery.',
+      bullets: [
+        'Engineered an interactive 2D Canvas particle constellation network with mouse repulsion physics.',
+        'Built a full-featured image lightbox gallery with smooth zooming, captions, and keyboard controls.',
+        'Designed a 100% mobile-friendly responsive layout with glassmorphic cards and scroll-triggered animations.'
+      ],
+      tags: ['HTML5', 'CSS3', 'JavaScript', 'Glassmorphism', 'Canvas API'],
+      github: 'https://github.com/gopi0502'
+    },
+    'retro-arcade': {
+      title: 'Retro Arcade: Snake & Brick Breaker',
+      badge: '2D Game Dev',
+      metric: '60 FPS Loop',
+      img: 'https://picsum.photos/id/1080/900/500',
+      desc: 'Playable 2D browser mini-games developed with HTML5 Canvas and JavaScript (accompanied by a C++ console version) exploring collision detection, state loops, and high scores.',
+      bullets: [
+        'Programmed a 60 FPS requestAnimationFrame game loop with keyboard direction controls and velocity math.',
+        'Implemented real-time bounding-box collision detection between ball, paddle, bricks, and snake segments.',
+        'Added local storage high-score leaderboard and responsive pause/restart capabilities.'
+      ],
+      tags: ['JavaScript', 'HTML5 Canvas', 'C++', 'Game Loops', 'Collision Math'],
+      github: 'https://github.com/gopi0502'
+    },
+    'study-hub-ui': {
+      title: 'School Study Hub · UI/UX Design System',
+      badge: 'Figma UI/UX',
+      metric: '15+ Screens',
+      img: 'https://picsum.photos/id/119/900/500',
+      desc: 'A comprehensive UI wireframe and high-fidelity prototype created in Figma for a student study companion app, featuring homework organizers, timetable views, and announcements.',
+      bullets: [
+        'Researched student workflows and designed 15+ interactive mobile screens in Figma.',
+        'Established an accessible design system with harmonious dark palettes, buttons, and card styles.',
+        'Created promotional digital flyers and social banners for school tech week.'
+      ],
+      tags: ['Figma', 'UI/UX', 'Wireframing', 'Design System', 'Mobile Design'],
+      github: 'https://github.com/gopi0502'
+    },
+    'quick-quiz': {
+      title: 'QuickQuiz: 10th Grade STEM Revision App',
+      badge: 'Web Application',
+      metric: '40+ Students',
+      img: 'https://picsum.photos/id/20/900/500',
+      desc: 'A timed multiple-choice quiz web application built to help classmates review 10th-grade Mathematics, Science, and Computer Science concepts with instant score reports.',
+      bullets: [
+        'Built interactive quiz mechanics with countdown timers, randomized questions, and instant explanations.',
+        'Stored test history and topic accuracy breakdowns locally in the user\'s browser.',
+        'Used by 40+ classmates during 10th-grade final board exam revision week.'
+      ],
+      tags: ['JavaScript', 'HTML5', 'CSS3', 'STEM Prep', 'Exam Revision'],
+      github: 'https://github.com/gopi0502'
+    }
+  };
+
+  function openProjectModal(id) {
+    const data = PROJECTS_DATA[id];
+    if (!data) return;
+    document.getElementById('modalImg').src = data.img;
+    document.getElementById('modalImg').alt = data.title;
+    document.getElementById('modalBadge').textContent = data.badge;
+    document.getElementById('modalMetric').innerHTML = `<i class="fas fa-star"></i> ${data.metric}`;
+    document.getElementById('modalTitle').textContent = data.title;
+    document.getElementById('modalDesc').textContent = data.desc;
+    document.getElementById('modalBullets').innerHTML = data.bullets.map(b => `<li><i class="fas fa-check-circle"></i><span>${b}</span></li>`).join('');
+    document.getElementById('modalTags').innerHTML = data.tags.map(t => `<span class="proj-tag">${t}</span>`).join('');
+    document.getElementById('modalGithub').href = data.github || 'https://github.com/gopi0502';
+    
+    const backdrop = document.getElementById('projectModalBackdrop');
+    backdrop.classList.add('open');
+    backdrop.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeProjectModal() {
+    const backdrop = document.getElementById('projectModalBackdrop');
+    if (!backdrop) return;
+    backdrop.classList.remove('open');
+    backdrop.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  document.getElementById('projectModalClose')?.addEventListener('click', closeProjectModal);
+  document.getElementById('projectModalBackdrop')?.addEventListener('click', (e) => {
+    if (e.target.id === 'projectModalBackdrop') closeProjectModal();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeProjectModal();
+  });
+
+  // Category Filter Functionality
+  document.querySelectorAll('.proj-filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.proj-filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+      document.querySelectorAll('.proj-card').forEach(card => {
+        if (filter === 'all' || card.dataset.category === filter) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+    });
+  });
   </script>
 </body>
 </html>
